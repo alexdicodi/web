@@ -1,4 +1,5 @@
 from numpy.core.fromnumeric import mean
+from numpy.core.function_base import add_newdoc
 import streamlit as st
 import requests
 import numpy as np
@@ -59,7 +60,7 @@ params = {
 
 response = requests.get(url,params=params)
 
-if isinstance(response.json()["prediction"], float) & response.status_code == 200:
+if (isinstance(response.json()["prediction"], float) and response.status_code == 200):
     st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
     
     #Will play around with maps
