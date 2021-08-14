@@ -58,7 +58,7 @@ params = {
 #We will now call our API endpoint and return the prediction to the user
 
 response = requests.get(url,params=params)
-if response is None:
+if isinstance(response.json()["prediction"], float):
     st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
 else:
     st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
@@ -66,42 +66,11 @@ else:
 #Will play around with maps
 
 df = pd.DataFrame(
-    [[float(pickup_long_input), float(pickup_lat_input)]],
+    [[float(pickup_lat_input), float(pickup_long_input)]],
     columns=['lat', 'lon'])
 
-new_row = {'lat':float(dropoff_long_input), 'lon':float(dropoff_lat_input)}
+new_row = {'lat':float(dropoff_lat_input), 'lon':float(dropoff_long_input)}
 
 df = df.append(new_row, ignore_index=True)
 
 st.map(df)
-
-"""
-st.pydeck_chart(pdk.Deck(
-     map_style='mapbox://styles/mapbox/light-v9',
-     initial_view_state=pdk.ViewState(
-         latitude=40.6,
-         longitude=-73.76,
-         zoom=11,
-         pitch=50,
-     ),
-     layers=[
-         pdk.Layer(
-            'HexagonLayer',
-            data=df,
-            get_position='[lon, lat]',
-            radius=200,
-            elevation_scale=10,
-            elevation_range=[0, 3000],
-            pickable=True,
-            extruded=True,
-         ),
-         pdk.Layer(
-             'ScatterplotLayer',
-             data=df,
-             get_position='[lon, lat]',
-             get_color='[200, 30, 0, 160]',
-             get_radius=200,
-         ),
-     ],
- ))
- """
