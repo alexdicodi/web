@@ -60,7 +60,10 @@ params = {
 
 response = requests.get(url,params=params)
 
-if (isinstance(response.json()["prediction"], float) and response.status_code == 200):
+if response.json()["detail"]["type"] == "value_error.missing":
+    st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
+
+else:
     st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
     
     #Will play around with maps
@@ -74,6 +77,5 @@ if (isinstance(response.json()["prediction"], float) and response.status_code ==
     df = df.append(new_row, ignore_index=True)
 
     st.map(df)
-else:
-    st.write('Please input the values in the sidebar to receive an estimate of your fare costs')    
+        
 
