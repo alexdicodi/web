@@ -61,7 +61,7 @@ response = requests.get(url,params=params)
 if response is None:
     st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
 else:
-    st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '€')
+    st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
 
 #Will play around with maps
 
@@ -73,6 +73,9 @@ new_row = {'lat':float(dropoff_long_input), 'lon':float(dropoff_lat_input)}
 
 df = df.append(new_row, ignore_index=True)
 
+st.map(df)
+
+"""
 st.pydeck_chart(pdk.Deck(
      map_style='mapbox://styles/mapbox/light-v9',
      initial_view_state=pdk.ViewState(
@@ -101,3 +104,4 @@ st.pydeck_chart(pdk.Deck(
          ),
      ],
  ))
+ """
