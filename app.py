@@ -63,14 +63,18 @@ st.write('The estimated cost of your ride is: ', round(response.json()["predicti
 #Will play around with maps
 
 df = pd.DataFrame(
-    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+    [[float(pickup_long_input), float(pickup_lat_input)]],
     columns=['lat', 'lon'])
+
+new_row = {'lat':float(dropoff_long_input), 'lon':float(dropoff_lat_input)}
+
+df = df.append(new_row, ignore_index=True)
 
 st.pydeck_chart(pdk.Deck(
      map_style='mapbox://styles/mapbox/light-v9',
      initial_view_state=pdk.ViewState(
-         latitude=37.76,
-         longitude=-122.4,
+         latitude=40.6,
+         longitude=-73.76,
          zoom=11,
          pitch=50,
      ),
@@ -80,8 +84,8 @@ st.pydeck_chart(pdk.Deck(
             data=df,
             get_position='[lon, lat]',
             radius=200,
-            elevation_scale=4,
-            elevation_range=[0, 1000],
+            elevation_scale=10,
+            elevation_range=[0, 3000],
             pickable=True,
             extruded=True,
          ),
