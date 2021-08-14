@@ -60,7 +60,7 @@ params = {
 
 response = requests.get(url,params=params)
 
-if response.json()["detail"]["type"] == "value_error.missing":
+if response.json()["detail"][0]["type"] == "value_error.missing":
     st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
 
 else:
