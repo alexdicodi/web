@@ -58,12 +58,11 @@ params = {
 
 #We will now call our API endpoint and return the prediction to the user
 
-response = requests.get(url,params=params)
-
-if response.json()["detail"][0]["type"] == "value_error.missing":
+if requests.get(url,params=params).json()["detail"][0]["type"] == "value_error.missing":
     st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
 
 else:
+    response = requests.get(url,params=params)
     st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
     
     #Will play around with maps
