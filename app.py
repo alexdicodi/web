@@ -25,22 +25,22 @@ st.markdown('''
 #We will first ask the user for their input
 
 date_time_input = st.sidebar.text_input(
-    "Date & Time")
+    "Date & Time","2013-07-06 17:18:00")
 
 pickup_long_input = st.sidebar.text_input(
-    "Pickup longitude")
+    "Pickup longitude","-73.950655")
 
 pickup_lat_input = st.sidebar.text_input(
-    "Pickup latitude")
+    "Pickup latitude","40.783282")
 
 dropoff_long_input = st.sidebar.text_input(
-    "Dropoff longitude")
+    "Dropoff longitude","-73.984365")
 
 dropoff_lat_input = st.sidebar.text_input(
-    "Dropoff latitude")
+    "Dropoff latitude","40.769802")
 
 pass_count_input = st.sidebar.text_input(
-    "Passenger count")
+    "Passenger count",1)
 
 ##Check whether the input are being store correctly
 ###st.write('The date is', date_time_input)
@@ -57,22 +57,17 @@ params = {
 }
 
 #We will now call our API endpoint and return the prediction to the user
-
-if requests.get(url,params=params).json()["detail"][0]["type"] == "value_error.missing":
-    st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
-
-else:
-    response = requests.get(url,params=params)
-    st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
+response = requests.get(url,params=params)
+st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
     
-    #Will play around with maps
+#Will play around with maps
 
-    df = pd.DataFrame(
-        [[float(pickup_lat_input), float(pickup_long_input)]],
-        columns=['lat', 'lon'])
+df = pd.DataFrame(
+    [[float(pickup_lat_input), float(pickup_long_input)]],
+    columns=['lat', 'lon'])
 
-    new_row = {'lat':float(dropoff_lat_input), 'lon':float(dropoff_long_input)}
+new_row = {'lat':float(dropoff_lat_input), 'lon':float(dropoff_long_input)}
 
-    df = df.append(new_row, ignore_index=True)
+df = df.append(new_row, ignore_index=True)
 
-    st.map(df)
+st.map(df)
