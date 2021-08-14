@@ -59,9 +59,9 @@ params = {
 
 response = requests.get(url,params=params)
 if isinstance(response.json()["prediction"], float):
-    st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
-else:
     st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
+else:
+    st.write('Please input the values in the sidebar to receive an estimate of your fare costs')    
 
 #Will play around with maps
 
