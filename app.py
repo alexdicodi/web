@@ -61,7 +61,7 @@ params = {
 if requests.get(url,params=params).json()["detail"][0]["type"] == "value_error.missing":
     st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
 
-elif isinstance(requests.get(url,params=params).json()["prediction"],float):
+else:
     response = requests.get(url,params=params)
     st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
     
@@ -76,7 +76,3 @@ elif isinstance(requests.get(url,params=params).json()["prediction"],float):
     df = df.append(new_row, ignore_index=True)
 
     st.map(df)
-    
-else:
-    st.write('Please input the values in the sidebar to receive an estimate of your fare costs')
-
