@@ -58,19 +58,21 @@ params = {
 #We will now call our API endpoint and return the prediction to the user
 
 response = requests.get(url,params=params)
-if isinstance(response.json()["prediction"], float):
+
+if isinstance(response.json()["prediction"], float) & response.status_code == 200:
     st.write('The estimated cost of your ride is: ', round(response.json()["prediction"],2), '$')
+    
+    #Will play around with maps
+
+    df = pd.DataFrame(
+        [[float(pickup_lat_input), float(pickup_long_input)]],
+        columns=['lat', 'lon'])
+
+    new_row = {'lat':float(dropoff_lat_input), 'lon':float(dropoff_long_input)}
+
+    df = df.append(new_row, ignore_index=True)
+
+    st.map(df)
 else:
     st.write('Please input the values in the sidebar to receive an estimate of your fare costs')    
 
-#Will play around with maps
-
-df = pd.DataFrame(
-    [[float(pickup_lat_input), float(pickup_long_input)]],
-    columns=['lat', 'lon'])
-
-new_row = {'lat':float(dropoff_lat_input), 'lon':float(dropoff_long_input)}
-
-df = df.append(new_row, ignore_index=True)
-
-st.map(df)
